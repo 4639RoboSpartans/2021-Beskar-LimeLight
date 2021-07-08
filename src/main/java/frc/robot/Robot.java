@@ -39,10 +39,8 @@ public class Robot extends TimedRobot {
 		// and put our
 		// autonomous chooser on the dashboard.
 		m_robotContainer = new RobotContainer();
-		
-
-
 		CameraServer.getInstance().startAutomaticCapture();
+		m_robotContainer.arduino.write(new byte[]{0x1},1);
 	}
 
 	/**
@@ -63,6 +61,7 @@ public class Robot extends TimedRobot {
 		// and running subsystem periodic() methods. This must be called from the
 		// robot's periodic
 		// block in order for anything in the Command-based framework to work.
+		m_robotContainer.arduino.write(new byte[]{0x1},1);
 		CommandScheduler.getInstance().run();
 	}
 
@@ -71,10 +70,12 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
+		m_robotContainer.arduino.write(new byte[]{0x1},1);
 	}
 
 	@Override
 	public void disabledPeriodic() {
+		m_robotContainer.arduino.write(new byte[]{0x1},1);
 	}
 
 	/**
@@ -83,6 +84,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		m_robotContainer.arduino.write(new byte[]{0x2},1);
 		m_robotContainer.setDriveNeutralMode(NeutralMode.Brake);
 		//m_robotContainer.m_shroud.resetEncoder();
 		m_autonomousCommand = m_robotContainer.getAutonomousCommand();
@@ -98,6 +100,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
+		m_robotContainer.arduino.write(new byte[]{0x2},1);
 		//SmartDashboard.putNumber("Time:",time.get());
 		/*VisionAimCmd vs =new VisionAimCmd(m_robotContainer.m_turret, m_robotContainer.m_shroud, m_robotContainer.m_photon);
 		vs.pitch-=40;
@@ -106,6 +109,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		m_robotContainer.arduino.write(new byte[]{0x3},1);
 		m_robotContainer.setDriveNeutralMode(NeutralMode.Brake);
 		//Reset the encoders on the shroud encoder
 		m_robotContainer.getShroud().resetEncoder();
@@ -127,6 +131,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		m_robotContainer.arduino.write(new byte[]{0x3},1);
 		SmartDashboard.putNumber("Target:", m_robotContainer.m_photon.LLTable.getEntry("tv").getDouble(0.0));
 		SmartDashboard.putNumber("HorizontalOffset", m_robotContainer.m_photon.LLTable.getEntry("tx").getDouble(0.0));
 		SmartDashboard.putNumber("VerticalOffset", m_robotContainer.m_photon.LLTable.getEntry("ty").getDouble(0.0));

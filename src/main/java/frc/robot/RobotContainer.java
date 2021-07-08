@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -58,7 +59,7 @@ public class RobotContainer {
 	public final PhotonVisionSys m_photon = new PhotonVisionSys();
 	private final OI m_oi= new OI();
 	private final Compressor m_compressor= new Compressor();
-	private int shroudPos = 0;
+	public SerialPort arduino;
 	/**
 	 * The container for the robot. Contains subsystems, OI devices, and commands.
 	 */
@@ -97,7 +98,15 @@ public class RobotContainer {
 		// Constants.Axes.RIGHT_STICK_Y) * 0.3),
 		// () -> m_shroud.setShroud(0), m_shroud));
 		configureButtonBindings();
-
+		try{
+			arduino = new SerialPort(9600, SerialPort.Port.kUSB);
+		}catch(Exception e){}
+		try{
+			arduino = new SerialPort(9600, SerialPort.Port.kUSB1);
+		}catch(Exception e){}
+		try{
+			arduino = new SerialPort(9600, SerialPort.Port.kUSB2);
+		}catch(Exception e){}
 		
 	}
 	/*
