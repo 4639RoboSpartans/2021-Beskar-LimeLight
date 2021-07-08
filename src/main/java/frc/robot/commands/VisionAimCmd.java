@@ -27,30 +27,21 @@ public class VisionAimCmd extends CommandBase {
 		addRequirements(turret);
 	}
 	@Override
-	//go to 10.46.39.11:5800 to see camera output and tune it
+	//go to 10.46.39.11:5801 to see camera output and tune it
 	public void execute() {
-		var result = photon.PhotonCam.getLatestResult();
-		if(result.hasTargets()){
-			yaw = result.getBestTarget().getYaw()+(-2.51256)*result.getBestTarget().getArea()+photon.yawOffSet-5;
-			SmartDashboard.putNumber("Yaw:",yaw);
-			pitch = result.getBestTarget().getPitch()+(-5.02513)*result.getBestTarget().getArea()+photon.pitchOffSet+5;//-20
-			if(Math.abs(yaw)>0){
-				SmartDashboard.putBoolean("Spinning", true);
-				if(yaw<0){
-				turret.setTurret(Constants.KP_ROT_TURRET*yaw+Constants.CONSTANT_FORCE_TURRET);
-				}else
-				turret.setTurret(Constants.KP_ROT_TURRET*yaw-Constants.CONSTANT_FORCE_TURRET);
-			}else{
-				turret.resetTurret();
-				SmartDashboard.putBoolean("Spinning",false);
-			}
-			shroud.pitch = pitch;
+		boolean target_found = 
+			1==photon.LLTable.getEntry("tv").getDouble(0);//whether a target is found
+		if(target_found){
+			yaw = photon.LLTable.getEntry("tx").getDouble(0);
+			pitch = photon.LLTable.getEntry("ty").getDouble(0);
 		}
+
 	}
 
 	@Override
 	public void end(boolean interrupted) {
 		turret.setTurret(0);
+		shroud.setShroud(0);
 	}
 
 	@Override

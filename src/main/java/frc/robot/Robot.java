@@ -29,9 +29,6 @@ import command.CommandScheduler;
 public class Robot extends TimedRobot {
 	private Command m_autonomousCommand;
 	private RobotContainer m_robotContainer;
-	public Encoder encoder1 = new Encoder(8, 9);
-	public int AutonCaseSwitch = 0;
-	private static final double diameter = 6.00;
 	/**
 	 * This function is run when the robot is first started up and should be used
 	 * for any initialization code.
@@ -66,8 +63,6 @@ public class Robot extends TimedRobot {
 		// and running subsystem periodic() methods. This must be called from the
 		// robot's periodic
 		// block in order for anything in the Command-based framework to work.
-		
-		SmartDashboard.putNumber("rotTurret",m_robotContainer.m_turret.getDegrees());
 		CommandScheduler.getInstance().run();
 	}
 
@@ -112,8 +107,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		m_robotContainer.setDriveNeutralMode(NeutralMode.Brake);
-		encoder1.setDistancePerPulse(diameter * Math.PI / 2048.0);
-		encoder1.reset();
 		//Reset the encoders on the shroud encoder
 		m_robotContainer.getShroud().resetEncoder();
 		//m_robotContainer.resetDesiredPostition();
@@ -134,16 +127,9 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		SmartDashboard.putNumber("Shroud deg: ", m_robotContainer.getShroud().getDegrees());
-		Constants.KP_ROT_TURRET = SmartDashboard.getNumber("KPROT", Constants.KP_ROT_TURRET);
-		Constants.CONSTANT_FORCE_TURRET = SmartDashboard.getNumber("kpconstant", Constants.CONSTANT_FORCE_TURRET);
-		m_robotContainer.shooterInfo();
-		m_robotContainer.m_climber.getRot();
-		SmartDashboard.putNumber("TURRET ROT", m_robotContainer.m_turret.getDegrees());
-	//	m_robotContainer.tempspeed =  SmartDashboard.getNumber("SHOOTER SPEED", 0);
-		SmartDashboard.putNumber("LEncoder ", m_robotContainer.m_drive.m_LeftEncoder.getDistance());
-		SmartDashboard.putNumber("REncoder ", m_robotContainer.m_drive.m_RightEncoder.getDistance());
-		SmartDashboard.putNumber("enDistRaw: ", encoder1.get());
+		SmartDashboard.putNumber("Target:", m_robotContainer.m_photon.LLTable.getEntry("tv").getDouble(0.0));
+		SmartDashboard.putNumber("HorizontalOffset", m_robotContainer.m_photon.LLTable.getEntry("tx").getDouble(0.0));
+		SmartDashboard.putNumber("VerticalOffset", m_robotContainer.m_photon.LLTable.getEntry("ty").getDouble(0.0));
 	}
 
 	@Override

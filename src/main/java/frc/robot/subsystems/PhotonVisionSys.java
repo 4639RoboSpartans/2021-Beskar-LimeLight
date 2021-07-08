@@ -1,7 +1,9 @@
 package frc.robot.subsystems;
-import org.photonvision.*;
+import edu.wpi.first.networktables.*;
 public class PhotonVisionSys {
-    public final PhotonCamera PhotonCam=new PhotonCamera("Aimbot9000");
-    public final double pitchOffSet= -34.372;
-    public final double yawOffSet= -5;//2.814 //negative is left positive is right
+    public NetworkTable LLTable = NetworkTableInstance.getDefault().getTable("limelight");
+    public PhotonVisionSys(){
+        LLTable.getEntry("camMode").setNumber(0); //sets camera to vision processing mode
+        LLTable.getEntry("pipeline").setNumber(0);//sets the pipeline to 0 which is default
+    }
 }

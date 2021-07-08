@@ -40,39 +40,10 @@ public class ShroudSys extends SubsystemBase {
 		this.pid.setSetpoint(0);
 		pid.setTolerance(1);
 	}
-
-	public double getDegrees() {
-		return shroudEncoder.getDistance();
-	}
-	public void setPos(double posDesired){
-		positionDesired = posDesired;
-	}
-	/*public void setDesiredPosition(double pos) {
-		if (pos == 0)
-			positionDesired = Constants.SHROUD_PRESET_0;
-		else if (pos == 1)
-			positionDesired = Constants.SHROUD_PRESET_1;
-		else if (pos == 2)
-			positionDesired = Constants.SHROUD_PRESET_2;
-		else if (pos == 3)
-			positionDesired = Constants.SHROUD_PRESET_3;
-
-		SmartDashboard.putString("DB/String 0", "DesPos: " + positionDesired);
-	}*/
-
-	public void setShroud(double power) {
-		shroud.set(power);
-	}
-
 	@Override
 	public void periodic() {
-		pidOut = pid.calculate(pitch, 0) / 100.0;
-		SmartDashboard.putNumber("Shroud Degrees:", getDegrees());
-		pid.setPID(SmartDashboard.getNumber("P", 0), SmartDashboard.getNumber("I", 0),
-				SmartDashboard.getNumber("D", 0));
-		if(pidOut<0&&getDegrees()>10){
-			shroud.set(pidOut);
-		}else if(pidOut>0&&getDegrees()<490){
+		pidOut = pid.calculate(pitch, 0);
+		if(getDegrees()>10&&getDegrees()<490){//change for new bounds
 			shroud.set(pidOut);
 		}else{
 			shroud.set(0);
@@ -80,11 +51,17 @@ public class ShroudSys extends SubsystemBase {
 		 //uncomment for future use FOR MANUAL CONTROL OF SHROUD
 		
 	}
+	public double getDegrees() {
+		return shroudEncoder.getDistance();
+	}
+	public void setPos(double posDesired){
+		positionDesired = posDesired;
+	}
+	public void setShroud(double power) {
+		shroud.set(power);
+	}
 	public void resetEncoder()
 	{
 		shroudEncoder.reset();
-	}
-	public void setVolts(double volts){
-		shroud.setVoltage(volts);
 	}
 }

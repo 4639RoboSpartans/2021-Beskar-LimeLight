@@ -27,18 +27,7 @@ public class TurretSys extends SubsystemBase {
 		pid.setSetpoint(0);
 		pid.setTolerance(0);
 	}
-
-	public void setTurret(double power) {
-		turret.set(power);
-	}
-	public void setTurretV(double v){
-		turret.setVoltage(v);
-	}
-
-	public double getDegrees() {
-		return turret.getSelectedSensorPosition()+11250;
-	}
-	public void resetTurret(){
+	public void resetTurret(){//NNED TO BE CHANGED, ANOTHER PID?
 		int defPos = -3250;
 		double degs = getDegrees();
 		if(degs<defPos){
@@ -46,14 +35,24 @@ public class TurretSys extends SubsystemBase {
 		}else
 			setTurret(Constants.KP_ROT_TURRET*(degs/25)-Constants.CONSTANT_FORCE_TURRET);
 	}
-	public void setTurretPos(double pos){
+	public void setTurretPos(double pos){//NEEDS TO BE CHANGED TO PID CONTROLLER
 		double degs = getDegrees();
 		if(degs<pos){
 			setTurret(Constants.KP_ROT_TURRET*(degs/25)+Constants.CONSTANT_FORCE_TURRET);
 		}else
 			setTurret(Constants.KP_ROT_TURRET*(degs/25)-Constants.CONSTANT_FORCE_TURRET);
 	}
+	public void setTurret(double power) {
+		turret.set(power);
+	}
+	public void setTurretV(double v){
+		turret.setVoltage(v);
+	}
+	public double getDegrees() {
+		return turret.getSelectedSensorPosition()+11250;
+	}
 	@Override
 	public void periodic() {
+		//ADD CODE HERE
 	}
 }
