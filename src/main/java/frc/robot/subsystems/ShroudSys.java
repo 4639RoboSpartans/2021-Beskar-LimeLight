@@ -24,7 +24,7 @@ public class ShroudSys extends SubsystemBase {
 	final PIDController pid;
 	public final Encoder shroudEncoder;
 	public double positionDesired=0;
-	public double pitch = 0;
+	private double pitch = 0;
 	private double pidOut;
 	public ShroudSys() {
 		this.shroud = new WPI_VictorSPX(Constants.SHROUD_CAN);
@@ -54,8 +54,8 @@ public class ShroudSys extends SubsystemBase {
 	public double getDegrees() {
 		return shroudEncoder.getDistance();
 	}
-	public void setPos(double posDesired){
-		positionDesired = posDesired;
+	public void setPitch(double pitch){
+		this.pitch=pitch;
 	}
 	public void setShroud(double power) {
 		shroud.set(power);
