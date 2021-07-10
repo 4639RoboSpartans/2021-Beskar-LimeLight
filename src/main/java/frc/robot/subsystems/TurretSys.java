@@ -54,5 +54,10 @@ public class TurretSys extends SubsystemBase {
 	@Override
 	public void periodic() {
 		//ADD CODE HERE
+		
+	}
+	public void align(double degOff){
+		double pidOut = pid.calculate(degOff);
+		turret.set(-pidOut);
 	}
 }

@@ -34,6 +34,7 @@ public class VisionAimCmd extends CommandBase {
 		if(target_found){
 			yaw = photon.LLTable.getEntry("tx").getDouble(0);
 			pitch = photon.LLTable.getEntry("ty").getDouble(0);
+			turret.align(yaw);
 		}
 
 	}
