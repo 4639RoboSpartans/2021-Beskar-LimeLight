@@ -23,7 +23,7 @@ public final class Constants {
 	public static double CONSTANT_FORCE_TURRET = 0.09;//0.1
 	public static final double TURRET_KP = 0.025;
 	public static final double TURRET_KI = 0.065;
-	public static final double TURRET_KD = 0.0017;
+	public static final double TURRET_KD = 0.0019;
 
 	public static final double MAX_COMMAND_VOLTAGE = 10;
 	public static final double TRACK_WIDTH = 0.55982;
