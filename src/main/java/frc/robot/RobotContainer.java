@@ -100,36 +100,25 @@ public class RobotContainer {
 		configureButtonBindings();
 		try{
 			arduino = new SerialPort(9600, SerialPort.Port.kUSB);
-		}catch(Exception e){}
+			System.out.println("Connected to KUSB");
+		}catch(Exception e){
+			System.out.println("Could not connect to KUSB");
+		}
 		try{
 			arduino = new SerialPort(9600, SerialPort.Port.kUSB1);
-		}catch(Exception e){}
+			System.out.println("Connected to KUSB1");
+		}catch(Exception e){
+			System.out.println("Could not connect to KUSB1");
+		}
 		try{
 			arduino = new SerialPort(9600, SerialPort.Port.kUSB2);
-		}catch(Exception e){}
+			System.out.println("Connected to KUSB2");
+		}catch(Exception e){
+			System.out.println("Could not connect to KUSB2");
+		}
 		
 	}
-	/*
-	// if the shroud is set to a position less than 3, then this will increase the
-	// position value by 1, and then return that position.
-	private int goDown() {
-		SmartDashboard.putString("DB/String 5", "GoUp: True");
-		if (shroudPos < 3) {
-			return ++this.shroudPos;
-		} else
-			return this.shroudPos;
-	}
-
-	// if the shroud is set to a position less than 4, then this will increase the
-	// position value by 1, and then return that position.
-	private int goUp() {
-		SmartDashboard.putString("DB/String 5", "GoDown: True");
-		if (shroudPos > 0) {
-			return --this.shroudPos;
-		} else
-			return this.shroudPos;
-	}*/
-
+	
 	/**
 	 * Use this method to define your button->command mappings. Buttons can be
 	 * created by instantiating a {@link GenericHID} or one of its subclasses
