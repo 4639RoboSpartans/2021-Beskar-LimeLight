@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import frc.robot.commands.ManualDriveCmd;
 import frc.robot.commands.PushBallsCmd;
 import frc.robot.commands.SpoolShooterCmd;
@@ -61,7 +61,6 @@ public class RobotContainer {
 	private final OI m_oi= new OI();
 	private final Compressor m_compressor= new Compressor();
 	public SerialPort arduino;
-	public AHRS navx = new AHRS(SerialPort.Port.kMXP);
 	/**
 	 * The container for the robot. Contains subsystems, OI devices, and commands.
 	 */
@@ -225,6 +224,11 @@ public class RobotContainer {
 	);
 	}
 
+
+	/*public Command getAutoomousCommandPath(){
+		 
+	
+	}*/
 	public void setDriveNeutralMode(NeutralMode mode) {
 		m_drive.setNeutralMode(mode);
 	}

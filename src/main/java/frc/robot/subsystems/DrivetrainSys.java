@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
-
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import frc.robot.Constants;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -29,11 +29,7 @@ public class DrivetrainSys extends SubsystemBase {
 	private final DifferentialDrive drive;
 	public final Encoder m_RightEncoder = new Encoder(0,1, true);
 	public final Encoder m_LeftEncoder = new Encoder(2,3);
-	private static final double diameter = 6.00;
-	/*
-	 * private final SlewRateLimiter limiter1 = new SlewRateLimiter(5); private
-	 * final SlewRateLimiter limiter2 = new SlewRateLimiter(5);
-	 */
+	private static final double diameter = 0.1524;//6 inches
 
 public DrivetrainSys(){
 	m_LeftEncoder.setDistancePerPulse(diameter * Math.PI / 2048.0);
@@ -59,7 +55,7 @@ public DrivetrainSys(){
 		backRight.setNeutralMode(NeutralMode.Brake);
 		backRight.follow(frontRight);
 
-		this.odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getYaw()));
+		this.odometry = new DifferentialDriveOdometry(navx.getRotation2d());
 
 		this.drive = new DifferentialDrive(frontLeft, frontRight);
 		drive.setSafetyEnabled(false);
@@ -91,8 +87,42 @@ public DrivetrainSys(){
 	public double getYaw() {
 		return -navx.getYaw();
 	}
-
+	public Pose2d getPose(){
+		return odometry.getPoseMeters();
+	}
+	public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+		return new DifferentialDriveWheelSpeeds(m_LeftEncoder.getRate(), m_RightEncoder.getRate());
+	}
+	public void resetEncoders(){
+		m_LeftEncoder.reset();
+		m_RightEncoder.reset();
+	}
+	public void resetOdometry(Pose2d pose) {
+		resetEncoders();
+		odometry.resetPosition(pose, navx.getRotation2d());
+	  }
 	@Override
 	public void periodic() {
+		odometry.update(navx.getRotation2d(),m_LeftEncoder.getDistance(), m_RightEncoder.getDistance());
+	}
+	public void tankDriveVolts(double leftVolts, double rightVolts) {
+		frontLeft.setVoltage(leftVolts);
+		frontRight.setVoltage(-rightVolts);
+		drive.feed();
+	}
+	public double getAverageEncoderDistance() {
+		return (m_LeftEncoder.getDistance() + m_RightEncoder.getDistance()) / 2.0;
+	}
+	public void setMaxOutput(double maxOutput) {
+		drive.setMaxOutput(maxOutput);
+	}
+	public void zeroHeading() {
+		navx.reset();
+	}
+	public double getHeading() {
+		return navx.getRotation2d().getDegrees();
+	}
+	public double getTurnRate() {
+		return -navx.getRate();
 	}
 }
