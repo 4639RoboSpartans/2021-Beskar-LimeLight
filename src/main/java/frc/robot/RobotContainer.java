@@ -34,6 +34,7 @@ import frc.robot.subsystems.ShroudSys;
 import frc.robot.subsystems.TurretSys;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.kauailabs.navx.frc.AHRS;
 
 import command.Command;
 import command.ExecuteEndCommand;
@@ -60,6 +61,7 @@ public class RobotContainer {
 	private final OI m_oi= new OI();
 	private final Compressor m_compressor= new Compressor();
 	public SerialPort arduino;
+	public AHRS navx = new AHRS(SerialPort.Port.kMXP);
 	/**
 	 * The container for the robot. Contains subsystems, OI devices, and commands.
 	 */

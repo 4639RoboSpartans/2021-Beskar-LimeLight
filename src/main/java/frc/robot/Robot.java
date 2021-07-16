@@ -138,6 +138,16 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("HorizontalOffset", m_robotContainer.m_photon.LLTable.getEntry("tx").getDouble(0.0));
 		SmartDashboard.putNumber("HorizontalOff", m_robotContainer.m_photon.LLTable.getEntry("tx").getDouble(0.0));
 		SmartDashboard.putNumber("VerticalOffset", m_robotContainer.m_photon.LLTable.getEntry("ty").getDouble(0.0));
+		SmartDashboard.putBoolean("Navx Connected:",m_robotContainer.navx.isConnected());
+		SmartDashboard.putNumber("Navx yaw",m_robotContainer.navx.getYaw());
+		SmartDashboard.putNumber("Navx pitch",m_robotContainer.navx.getPitch());
+		SmartDashboard.putNumber("Navx roll",m_robotContainer.navx.getRoll());
+		SmartDashboard.putNumber("Navx LX",m_robotContainer.navx.getWorldLinearAccelX());
+		SmartDashboard.putNumber("Navx LY",m_robotContainer.navx.getWorldLinearAccelY());
+		SmartDashboard.putNumber("Navx LZ",m_robotContainer.navx.getWorldLinearAccelZ());
+
+		SmartDashboard.putNumber("leftSideValue", m_robotContainer.m_drive.m_LeftEncoder.getDistance());
+		SmartDashboard.putNumber("rightSideValue", m_robotContainer.m_drive.m_RightEncoder.getDistance());
 	}
 
 	@Override
