@@ -24,17 +24,20 @@ public class VisionAimCmd extends CommandBase {
 		this.turret = turret;
 		this.shroud = shroud;
 		this.photon = photon;
-		addRequirements(turret);
+		addRequirements(turret, shroud);
 	}
 	@Override
 	//go to 10.46.39.11:5801 to see camera output and tune it
 	public void execute() {
+		
 		boolean target_found = 
 			1==photon.LLTable.getEntry("tv").getDouble(0);//whether a target is found
 		if(target_found){
 			yaw = photon.LLTable.getEntry("tx").getDouble(0);
 			pitch = photon.LLTable.getEntry("ty").getDouble(0);
+			
 			turret.align(yaw);
+			shroud.setPitch(pitch);
 		}
 
 	}
