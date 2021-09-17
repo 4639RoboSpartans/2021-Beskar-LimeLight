@@ -34,18 +34,21 @@ public class VisionAimCmd extends CommandBase {
 			1==photon.LLTable.getEntry("tv").getDouble(0);//whether a target is found
 		if(target_found){
 			yaw = photon.LLTable.getEntry("tx").getDouble(0);
-			pitch = photon.LLTable.getEntry("ty").getDouble(0);
+			pitch =photon.LLTable.getEntry("ty").getDouble(0.0);
 			
 			turret.align(yaw);
-			shroud.setPitch(pitch);
+			shroud.pitch = pitch;
 		}
 
 	}
 
 	@Override
 	public void end(boolean interrupted) {
+		shroud.pitch = 0;
+		shroud.shroud.setVoltage(0);
 		turret.setTurret(0);
 		shroud.setShroud(0);
+		
 	}
 
 	@Override

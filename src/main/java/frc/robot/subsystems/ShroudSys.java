@@ -20,11 +20,11 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import command.SubsystemBase;
 
 public class ShroudSys extends SubsystemBase {
-	private final WPI_VictorSPX shroud;
+	public final WPI_VictorSPX shroud;
 	final PIDController pid;
 	public final Encoder shroudEncoder;
 	public double positionDesired=0;
-	private double pitch = 0;
+	public double pitch = 0;
 	private double pidOut;
 	public ShroudSys() {
 		this.shroud = new WPI_VictorSPX(Constants.SHROUD_CAN);
@@ -43,12 +43,14 @@ public class ShroudSys extends SubsystemBase {
 	@Override
 	public void periodic() {
 		pidOut = pid.calculate(pitch, 0);
-		if(getDegrees()>10&&getDegrees()<490){//change for new bounds
-			shroud.set(pidOut);
+		shroud.set(pidOut);
+		/*if(getDegrees()>10&&getDegrees()<490){//change for new bounds
+			
 		}else{
 			shroud.set(0);
 		}
 		 //uncomment for future use FOR MANUAL CONTROL OF SHROUD
+		 */
 		
 	}
 	public double getDegrees() {
@@ -58,6 +60,12 @@ public class ShroudSys extends SubsystemBase {
 		this.pitch=pitch;
 	}
 	public void setShroud(double power) {
+		if(power ==0){
+			pitch=0;
+			pidOut = 0;
+			shroud.setVoltage(0);
+			pid.reset();
+		}else
 		shroud.set(power);
 	}
 	public void resetEncoder()

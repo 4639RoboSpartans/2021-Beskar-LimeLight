@@ -22,8 +22,8 @@ public final class Constants {
 	public static double KP_ROT_TURRET = 0.007;//0.007
 	public static double CONSTANT_FORCE_TURRET = 0.09;//0.1
 	public static final double TURRET_KP = 0.025;
-	public static final double TURRET_KI = 0.065;
-	public static final double TURRET_KD = 0.0019;
+	public static final double TURRET_KI = 0.04;
+	public static final double TURRET_KD = 0.0;
 
 	public static final double MAX_COMMAND_VOLTAGE = 10;
 	public static final double TRACK_WIDTH = 0.55982;
@@ -41,8 +41,8 @@ public final class Constants {
 
 	// SHROUD CONSTANTS
 	public static final int SHROUD_CAN = 6; // the CAN 10 was rassigned to the Shroud.
-	public static final double SHROUD_KP = 0.85;//3.
-	public static final double SHROUD_KI = 0.08;//0.1
+	public static final double SHROUD_KP = 0.07;//3.
+	public static final double SHROUD_KI = 0.2;//0.1
 	public static final double SHROUD_KD = 0;
 	/*public static final double SHROUD_PRESET_0 = 0.0;
 	public static final double SHROUD_PRESET_1 = 205.0;

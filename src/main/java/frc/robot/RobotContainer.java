@@ -60,6 +60,7 @@ public class RobotContainer {
 	public final PhotonVisionSys m_photon = new PhotonVisionSys();
 	private final OI m_oi= new OI();
 	private final Compressor m_compressor= new Compressor();
+	VisionAimCmd vc = new VisionAimCmd(m_turret, m_shroud, m_photon);
 	public SerialPort arduino;
 	/**
 	 * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -128,12 +129,12 @@ public class RobotContainer {
 	 */
 	private void configureButtonBindings() {
 		//auto aim
-		m_oi.getButton(1, Buttons.LEFT_BUMPER).whileHeld(new VisionAimCmd(m_turret, m_shroud,m_photon));
+		m_oi.getButton(1, Buttons.LEFT_BUMPER).whileHeld(vc);
 		//resetShroud pos
 		m_oi.getButton(1, Buttons.B_BUTTON).whileHeld(new ExecuteEndCommand(()->m_shroud.setShroud(-0.5),()->m_shroud.setShroud(0),m_shroud));
 		m_oi.getButton(1, Buttons.B_BUTTON).whileHeld(new InstantCommand(()->m_turret.resetTurret(), m_turret));
 		m_oi.getButton(1, Buttons.B_BUTTON).whileHeld(new InstantCommand(()->m_shroud.setShroud(0), m_shroud));
-		m_oi.getButton(1, Buttons.LEFT_BUMPER).whenReleased(new InstantCommand(()->m_shroud.setShroud(0)), true	);
+		//m_oi.getButton(1, Buttons.LEFT_BUMPER).whenReleased(new InstantCommand(()->m_shroud.setShroud(0)), true	);
 		// Auto Shoot balls
 		m_oi.getButton(1, Buttons.RIGHT_BUMPER).whileHeld(new SpoolShooterCmd(m_shooter, m_kicker, Constants.TEMPSPEED ));
 		m_oi.getButton(1, Buttons.RIGHT_BUMPER).whileHeld(new PushBallsCmd(m_hopper, m_intake, m_shooter));
