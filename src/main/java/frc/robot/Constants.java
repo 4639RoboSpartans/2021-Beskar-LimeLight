@@ -42,7 +42,7 @@ public final class Constants {
 	// SHROUD CONSTANTS
 	public static final int SHROUD_CAN = 6; // the CAN 10 was rassigned to the Shroud.
 	public static final double SHROUD_KP = 0.07;//3.
-	public static final double SHROUD_KI = 0.25;//0.1
+	public static final double SHROUD_KI = 0.2;//0.1
 	public static final double SHROUD_KD = 0;
 	/*public static final double SHROUD_PRESET_0 = 0.0;
 	public static final double SHROUD_PRESET_1 = 205.0;
