@@ -23,7 +23,7 @@ public class ShooterSys extends SubsystemBase {
 
 	private final PIDController pid;
 
-	private double speedDesired = 0;
+	public double speedDesired = 0;
 
 	public ShooterSys() {
 		this.topShooter = new WPI_TalonSRX(Constants.TOP_SHOOTER_CAN);
@@ -53,6 +53,7 @@ public class ShooterSys extends SubsystemBase {
 
 	public void setShooter(double speed) {
 		// rotations per second
+		topShooter.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 100); 
 		speedDesired = speed;
 	}
 

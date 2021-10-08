@@ -76,6 +76,13 @@ public class ShroudSys extends SubsystemBase {
 		}
 		
 	}
+	public void shroudReset(double power){
+		if(getDegrees()<=-100&&power>0){
+			shroud.set(power);
+		}else if(getDegrees()>=480&&power<0){
+			shroud.set(power);
+		}
+	}
 	public void resetEncoder()
 	{
 		shroudEncoder.reset();

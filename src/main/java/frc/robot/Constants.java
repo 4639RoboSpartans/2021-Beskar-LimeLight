@@ -42,7 +42,7 @@ public final class Constants {
 	// SHROUD CONSTANTS
 	public static final int SHROUD_CAN = 6; // the CAN 10 was rassigned to the Shroud.
 	public static final double SHROUD_KP = 0.07;//3.
-	public static final double SHROUD_KI = 0.17;//0.1
+	public static final double SHROUD_KI = 0.15;//0.1
 	public static final double SHROUD_KD = 0;
 	/*public static final double SHROUD_PRESET_0 = 0.0;
 	public static final double SHROUD_PRESET_1 = 205.0;
@@ -54,7 +54,7 @@ public final class Constants {
 	public static final int BOTTOM_SHOOTER_CAN = 9;
 	public static final SimpleMotorFeedforward SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.00384, 0.00116 * 3, 0.00128);
 	public static final double SHOOTER_PID_TOLERANCE = 0.5;
-	public static final double TEMPSPEED = 1650;//1500
+	public static final double TEMPSPEED = 1650;//1650
 	public static final double SHOOTER_KP = 0.15;
 	public static final double SHOOTER_KI = 0;
 	public static final double SHOOTER_KD = 0;

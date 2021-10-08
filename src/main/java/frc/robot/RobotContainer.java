@@ -100,24 +100,7 @@ public class RobotContainer {
 		// Constants.Axes.RIGHT_STICK_Y) * 0.3),
 		// () -> m_shroud.setShroud(0), m_shroud));
 		configureButtonBindings();
-		try{
-			arduino = new SerialPort(9600, SerialPort.Port.kUSB);
-			System.out.println("Connected to KUSB");
-		}catch(Exception e){
-			System.out.println("Could not connect to KUSB");
-		}
-		try{
-			arduino = new SerialPort(9600, SerialPort.Port.kUSB1);
-			System.out.println("Connected to KUSB1");
-		}catch(Exception e){
-			System.out.println("Could not connect to KUSB1");
-		}
-		try{
-			arduino = new SerialPort(9600, SerialPort.Port.kUSB2);
-			System.out.println("Connected to KUSB2");
-		}catch(Exception e){
-			System.out.println("Could not connect to KUSB2");
-		}
+		
 		
 	}
 	
@@ -131,9 +114,8 @@ public class RobotContainer {
 		//auto aim
 		m_oi.getButton(1, Buttons.LEFT_BUMPER).whileHeld(vc);
 		//resetShroud pos
-		m_oi.getButton(1, Buttons.B_BUTTON).whileHeld(new ExecuteEndCommand(()->m_shroud.setShroud(-0.5),()->m_shroud.setShroud(0),m_shroud));
+		m_oi.getButton(1, Buttons.B_BUTTON).whileHeld(new ExecuteEndCommand(()->m_shroud.shroudReset(0.5),()->m_shroud.shroudReset(0),m_shroud));
 		m_oi.getButton(1, Buttons.B_BUTTON).whileHeld(new InstantCommand(()->m_turret.resetTurret(), m_turret));
-		m_oi.getButton(1, Buttons.B_BUTTON).whileHeld(new InstantCommand(()->m_shroud.setShroud(0), m_shroud));
 		//m_oi.getButton(1, Buttons.LEFT_BUMPER).whenReleased(new InstantCommand(()->m_shroud.setShroud(0)), true	);
 		// Auto Shoot balls
 		m_oi.getButton(1, Buttons.RIGHT_BUMPER).whileHeld(new SpoolShooterCmd(m_shooter, m_kicker, Constants.TEMPSPEED ));
@@ -147,8 +129,8 @@ public class RobotContainer {
 		//m_oi.getPovButton(1, 270).whenPressed(new InstantCommand(() -> m_shroud.setDesiredPosition(goUp()), m_shroud));
 		//m_oi.getPovButton(1, 90).whenPressed(new InstantCommand(() -> m_shroud.setDesiredPosition(goDown()), m_shroud));
 
-		m_oi.getPovButton(1, 270).whileHeld(new ExecuteEndCommand(()->m_shroud.setShroud(-0.7),()->m_shroud.setShroud(0), m_shroud));
-		m_oi.getPovButton(1, 90).whileHeld(new ExecuteEndCommand(()->m_shroud.setShroud(0.7),()->m_shroud.setShroud(0), m_shroud));
+		m_oi.getPovButton(1, 270).whileHeld(new ExecuteEndCommand(()->m_shroud.shroudReset(-0.7),()->m_shroud.shroudReset(0), m_shroud));
+		m_oi.getPovButton(1, 90).whileHeld(new ExecuteEndCommand(()->m_shroud.shroudReset(0.7),()->m_shroud.shroudReset(0), m_shroud));
 
 		/*SmartDashboard.putString("DB/String 1", "RightPOV: " + m_oi.getPovButton(1, 90).get());
 		SmartDashboard.putString("DB/String 2", "LeftPOV: " + m_oi.getPovButton(1, 270).get());

@@ -143,6 +143,9 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("rightSideValue", m_robotContainer.m_drive.m_RightEncoder.getDistance());
 		SmartDashboard.putNumber("Shroud pitch value", m_robotContainer.m_shroud.shroudEncoder.getDistance());
 		SmartDashboard.putNumber("Shroud power value", m_robotContainer.m_shroud.pidOut);
+
+		SmartDashboard.putNumber("TurretSpeed:", m_robotContainer.m_shooter.getSpeed());
+		SmartDashboard.putNumber("Desired Speed:", m_robotContainer.m_shooter.speedDesired);
 	}
 
 	@Override
