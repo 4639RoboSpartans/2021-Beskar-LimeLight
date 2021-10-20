@@ -113,6 +113,13 @@ public DrivetrainSys(){
 	public double getAverageEncoderDistance() {
 		return (m_LeftEncoder.getDistance() + m_RightEncoder.getDistance()) / 2.0;
 	}
+
+	public double getLeftEncoder(){
+		return m_LeftEncoder.getDistance();
+	}
+	public double getRightEncoder(){
+		return m_RightEncoder.getDistance();
+	}
 	public void setMaxOutput(double maxOutput) {
 		drive.setMaxOutput(maxOutput);
 	}

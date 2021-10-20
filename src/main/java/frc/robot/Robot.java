@@ -88,7 +88,7 @@ public class Robot extends TimedRobot {
 		//m_robotContainer.arduino.write(new byte[]{0x2},0);
 		m_robotContainer.setDriveNeutralMode(NeutralMode.Brake);
 		//m_robotContainer.m_shroud.resetEncoder();
-		m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+		m_autonomousCommand = m_robotContainer.PathAuton();
 		
 		// schedule the autonomous command (example)
 		if (m_autonomousCommand != null) {

@@ -8,6 +8,8 @@ package frc.robot;
 
 import static frc.robot.Constants.Buttons;
 
+import java.util.List;
+
 import javax.swing.ButtonGroup;
 
 import edu.wpi.first.wpilibj.Compressor;
@@ -16,7 +18,16 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.RamseteController;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import frc.robot.commands.ManualDriveCmd;
 import frc.robot.commands.PushBallsCmd;
@@ -40,6 +51,7 @@ import command.Command;
 import command.ExecuteEndCommand;
 import command.InstantCommand;
 import command.ParallelCommandGroup;
+import command.RamseteCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -207,6 +219,52 @@ public class RobotContainer {
 	);
 	}
 
+	public Command PathAuton(){
+		var autoVoltageConstraint =
+        new DifferentialDriveVoltageConstraint(
+           Constants.DRIVETRAIN_FEED_FORWARD,
+            Constants.kDriveKinematics,
+			10);
+		TrajectoryConfig config =
+			new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
+								 Constants.KMaxAccelerationMetersPerSecondSquared)
+				// Add kinematics to ensure max speed is actually obeyed
+				.setKinematics(Constants.kDriveKinematics)
+				// Apply the voltage constraint
+				.addConstraint(autoVoltageConstraint);
+
+		Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
+				// Start at the origin facing the +X direction
+				new Pose2d(0, 0, new Rotation2d(0)),
+					// Pass through these two interior waypoints, making an 's' curve path
+				List.of(
+					new Translation2d(1, 0),
+					new Translation2d(2, 0),
+					new Translation2d(3, 0.5),
+					new Translation2d(4, 0.5)
+					),
+					// End 3 meters straight ahead of where we started, facing forward
+					new Pose2d(5, 0.5, new Rotation2d(0)),
+					// Pass config
+					config
+				);
+
+		RamseteCommand ramseteCommand = new RamseteCommand(
+        exampleTrajectory,
+        m_drive::getPose,
+        new RamseteController(Constants.kRamseteB, Constants.KRamseteZeta),
+        Constants.DRIVETRAIN_FEED_FORWARD,
+        Constants.kDriveKinematics,
+        m_drive::getWheelSpeeds,
+        new PIDController(Constants.kPDriveVel, 0, 0),
+        new PIDController(Constants.kPDriveVel, 0, 0),
+        // RamseteCommand passes volts to the callback
+        m_drive::tankDriveVolts,
+        m_drive
+	);
+	m_drive.resetOdometry(exampleTrajectory.getInitialPose());
+	return ramseteCommand.andThen(() -> m_drive.tankDriveVolts(0, 0));
+	}
 
 	/*public Command getAutoomousCommandPath(){
 		 

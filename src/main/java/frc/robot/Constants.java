@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
  * It is advised to statically import this class (or one of its inner classes)
  * wherever the constants are needed, to reduce verbosity.
  */
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 public final class Constants {
 	public static double KP_ROT_TURRET = 0.007;//0.007
 	public static double CONSTANT_FORCE_TURRET = 0.09;//0.1
@@ -28,6 +29,12 @@ public final class Constants {
 	public static final double TRACK_WIDTH = 0.55982;
 	public static final SimpleMotorFeedforward DRIVETRAIN_FEED_FORWARD = new SimpleMotorFeedforward(0.75, 0.11 * 39.37,
 			0.0148 * 39.37);
+	public static final double kPDriveVel = 15.5; 	
+	public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(TRACK_WIDTH);
+	public static final int kMaxSpeedMetersPerSecond = 3;
+	public static final int KMaxAccelerationMetersPerSecondSquared = 3;
+	public static final double kRamseteB = 2;
+	public static final double KRamseteZeta = 0.7;
 
 	public static final double WHEEL_DIAMETER = 0.10795;
 
