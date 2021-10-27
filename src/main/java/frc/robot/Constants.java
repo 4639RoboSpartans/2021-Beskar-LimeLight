@@ -84,7 +84,7 @@ public final class Constants {
 	public static final double DEADZONE_VALUE = 0.01;
 	public static final int NUMBER_OF_CONTROLLERS = 2;
 
-	public static final double ROTATION_SENSITIVITY = 0.75;
+	public static final double ROTATION_SENSITIVITY = 0.8;//0.75
 
 	public enum Axes {
 		LEFT_STICK_X(0), LEFT_STICK_Y(1), LEFT_TRIGGER(2), RIGHT_TRIGGER(3), RIGHT_STICK_X(4), RIGHT_STICK_Y(5);

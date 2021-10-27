@@ -70,6 +70,7 @@ public class RobotContainer {
 	public final TurretSys m_turret= new TurretSys();
 	public final ShroudSys m_shroud = new ShroudSys();
 	public final PhotonVisionSys m_photon = new PhotonVisionSys();
+	public final VisionAimCmd vison = new VisionAimCmd(m_turret, m_shroud, m_photon);
 	private final OI m_oi= new OI();
 	private final Compressor m_compressor= new Compressor();
 	VisionAimCmd vc = new VisionAimCmd(m_turret, m_shroud, m_photon);
@@ -89,10 +90,10 @@ public class RobotContainer {
 		m_intake.setDefaultCommand(new ExecuteEndCommand(() -> {
 			if (m_oi.getAxis(1, Constants.Axes.RIGHT_TRIGGER) > 0) {
 				m_hopper.setHopper(-0.2);
-				m_intake.setIntake(0.5);
+				m_intake.setIntake(0.6);
 			} else if (m_oi.getAxis(1, Constants.Axes.LEFT_TRIGGER) > 0) {
 				m_hopper.setHopper(-0.2);
-				m_intake.setIntake(-0.5);
+				m_intake.setIntake(-0.6);
 				
 			} else {
 				m_hopper.setHopper(0);
@@ -104,7 +105,7 @@ public class RobotContainer {
 		}, m_intake, m_hopper));
 
 		m_turret.setDefaultCommand(
-				new ExecuteEndCommand(() -> m_turret.setTurret(m_oi.getAxis(1, Constants.Axes.LEFT_STICK_X) * 0.5),
+				new ExecuteEndCommand(() -> m_turret.setTurret(m_oi.getAxis(1, Constants.Axes.LEFT_STICK_X) * 0.4),
 						() -> m_turret.setTurret(0), m_turret));
 
 		// m_shroud.setDefaultCommand(
@@ -235,7 +236,7 @@ public class RobotContainer {
 		
 		Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
 				// Start at the origin facing the +X direction
-				new Pose2d(0, 0, Rotation2d.fromDegrees(90)),
+				new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
 					// Pass through these two interior waypoints, making an 's' curve path
 				List.of(
 					/*new Translation2d(1, 1.25),
@@ -246,7 +247,7 @@ public class RobotContainer {
 
 					),
 					// End 3 meters straight ahead of where we started, facing forward
-					new Pose2d(m_drive.getLeftEncoder()+1,0, Rotation2d.fromDegrees(0)),
+					new Pose2d(1,0, Rotation2d.fromDegrees(90)),
 					// Pass config 	
 					config
 				);
@@ -265,7 +266,16 @@ public class RobotContainer {
         m_drive
 	);
 	m_drive.resetOdometry(exampleTrajectory.getInitialPose());
-	return new ExecuteEndCommand(() -> m_drive.arcadeDrive(-0.6, 0), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(1.7).andThen(ramseteCommand);
+	return null;
+	/*new ParallelCommandGroup(new ExecuteEndCommand(() -> m_drive.arcadeDrive(-0.5, 0), () -> m_drive.arcadeDrive(0, 0), m_drive).withTimeout(1),
+	new ExecuteEndCommand(()->m_turret.setTurret(0.5), ()->m_turret.setTurret(0), m_turret).withTimeout(0.7), 
+	new ExecuteEndCommand(()->m_intake.setPivot(-0.7), ()->m_intake.setPivot(0), m_intake).withTimeout(0.5))
+	.andThen(new ParallelCommandGroup(
+		new VisionAimCmd(m_turret, m_shroud, m_photon),
+		new SpoolShooterCmd(m_shooter, m_kicker, Constants.TEMPSPEED),
+		new ExecuteEndCommand(()->m_intake.setIntake(0.4),()->m_intake.setIntake(0),m_intake),
+		new ExecuteEndCommand(()->m_hopper.setHopper(0.7), ()->m_hopper.setHopper(0),m_hopper).withTimeout(3))
+	).andThen(ramseteCommand);*/
 	}
 	/*public Trajectory rotateToTrench(){
 			

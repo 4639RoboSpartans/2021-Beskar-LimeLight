@@ -30,7 +30,7 @@ public class ShooterSys extends SubsystemBase {
 		topShooter.configFactoryDefault();
 		topShooter.setNeutralMode(NeutralMode.Coast);
 		topShooter.setSensorPhase(true);
-		topShooter.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 100); //Timeout 100ms
+		topShooter.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 200); //Timeout 100ms
 
 		this.bottomShooter = new WPI_VictorSPX(Constants.BOTTOM_SHOOTER_CAN);
 		bottomShooter.configFactoryDefault();
@@ -53,7 +53,7 @@ public class ShooterSys extends SubsystemBase {
 
 	public void setShooter(double speed) {
 		// rotations per second
-		topShooter.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 100); 
+		//topShooter.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 100); 
 		speedDesired = speed;
 	}
 
@@ -64,7 +64,7 @@ public class ShooterSys extends SubsystemBase {
 			topShooter.set(0);
 			//bottomShooter.set(0);
 		} else {	
-			double currentVoltage = /*speedDesired/2800*12;*/pid.calculate(getSpeed(), speedDesired) + Constants.SHOOTER_FEEDFORWARD.calculate(speedDesired);
+			double currentVoltage = /*speedDesired/2800*12;*/pid.calculate(getSpeed(), speedDesired) + Constants.SHOOTER_FEEDFORWARD.calculate(speedDesired,1500);
 			SmartDashboard.putNumber("VOLTAGE TO SHOOTER", currentVoltage);
 			topShooter.setVoltage(currentVoltage);
 			//bottomShooter.setVoltage(currentVoltage);	
